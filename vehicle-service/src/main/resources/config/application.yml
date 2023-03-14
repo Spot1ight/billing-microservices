@@ -1,5 +1,12 @@
 spring:
+  config:
+    import: optional:configserver:http://localhost:8070
+  cloud:
+    config:
+      name: vehicle-service
   application:
     name: vehicle-service
 server:
   port: 8090
+hello: Hello from vehicle-service!
+shared: test

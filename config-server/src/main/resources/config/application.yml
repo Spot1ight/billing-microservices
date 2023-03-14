@@ -10,3 +10,4 @@ spring:
           search-locations: classpath:/config
 server:
   port: 8070
+shared: This property is shared accross all client applications
