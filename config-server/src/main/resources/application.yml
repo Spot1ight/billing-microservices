@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: git
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Spot1ight/spring-cloud-properties
+          clone-on-start: true
+          default-label: master
+#        native:
+#          search-locations: classpath:/config
+server:
+  port: 8070
+#vehicle.shared: This property is shared accross all client applications

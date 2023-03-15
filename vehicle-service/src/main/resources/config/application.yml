@@ -8,5 +8,4 @@ spring:
     name: vehicle-service
 server:
   port: 8090
-hello: Hello from vehicle-service!
-shared: test
+value: Value from vehicle service!

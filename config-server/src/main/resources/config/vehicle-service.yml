@@ -1,1 +1,3 @@
-server.port: 8090
+hello: Hello from Config Server!
+vehicle.shared: Shared from Config Server!
+value: Value from Config Server!
