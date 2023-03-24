@@ -1,4 +1,4 @@
-package kz.dits.vehicleservice;
+package kz.dits.passageservice;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 
-@ConfigurationProperties(prefix = "vehicle", ignoreUnknownFields = false)
+@ConfigurationProperties(prefix = "passage", ignoreUnknownFields = false)
 @Getter
 @Setter
 @RefreshScope

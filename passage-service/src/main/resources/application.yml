@@ -3,11 +3,11 @@ spring:
     import: optional:configserver:http://localhost:8070
   cloud:
     config:
-      name: vehicle-service
+      name: passage-service
   application:
-    name: vehicle-service
+    name: passage-service
 server:
-  port: 8090
+  port: 8091
   shutdown: graceful
 management:
   info.env.enabled: true
@@ -29,6 +29,6 @@ eureka:
 
 info:
   app:
-    name: Vehicle Microservice
-    description: Billing Vehicle Application
+    name: Passage Microservice
+    description: Billing Passage Application
     version: 1.0.0

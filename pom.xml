@@ -24,6 +24,7 @@
         <module>vehicle-service</module>
         <module>config-server</module>
         <module>eureka-server</module>
+        <module>passage-service</module>
     </modules>
 
     <dependencies>
