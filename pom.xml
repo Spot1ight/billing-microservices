@@ -23,6 +23,7 @@
     <modules>
         <module>vehicle-service</module>
         <module>config-server</module>
+        <module>eureka-server</module>
     </modules>
 
     <dependencies>

@@ -14,4 +14,6 @@ spring:
 #          search-locations: classpath:/config
 server:
   port: 8070
+encrypt:
+  key: billing
 #vehicle.shared: This property is shared accross all client applications
