@@ -8,9 +8,27 @@ spring:
     name: vehicle-service
 server:
   port: 8090
-value: Value from vehicle service!
+  shutdown: graceful
 management:
+  info.env.enabled: true
   endpoints:
     web:
       exposure:
         include: '*'
+  endpoint:
+    shutdown:
+      enabled: true
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8060/eureka
+
+info:
+  app:
+    name: Vehicle MicroService
+    description: Billing Vehicle Application
+    version: 1.0.0
