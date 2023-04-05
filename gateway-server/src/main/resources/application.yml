@@ -1,0 +1,42 @@
+logging:
+  level:
+    kz.dits.gatewayserver: debug
+
+spring:
+  config:
+    import: optional:configserver:http://localhost:8070
+  cloud:
+    config:
+      name: gateway-server
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  application:
+    name: gateway-server
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8060/eureka
+
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+info:
+  app:
+    name: Gateway Microservice
+    description: Billing Gateway Application
+    version: 1.0.0

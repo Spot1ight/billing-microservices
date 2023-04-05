@@ -26,10 +26,12 @@ public class HomeController {
 
     @GetMapping("/passages")
     public List<String> getPassages(@RequestParam Integer count) {
+        log.info("Requesting passages count: {}", count);
         List<String> list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             list.add(UUID.randomUUID().toString());
         }
+        log.info("Request finished!");
         return list;
     }
 

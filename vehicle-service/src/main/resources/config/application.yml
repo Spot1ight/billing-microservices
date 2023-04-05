@@ -1,3 +1,13 @@
+management:
+  info.env.enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    shutdown:
+      enabled: true
+
 spring:
   config:
     import: optional:configserver:http://localhost:8070
@@ -9,15 +19,7 @@ spring:
 server:
   port: 8090
   shutdown: graceful
-management:
-  info.env.enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    shutdown:
-      enabled: true
+
 eureka:
   instance:
     prefer-ip-address: true
@@ -26,9 +28,35 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8060/eureka
-
 info:
   app:
     name: Vehicle Microservice
     description: Billing Vehicle Application
     version: 1.0.0
+
+resilience4j:
+  ratelimiter:
+    instances:
+      vehicle-hello-limiter:
+        timeout-duration: 1
+        limit-for-period: 5000
+        limit-refresh-period: 1
+  retry:
+    instances:
+      vehicle-passage-retry:
+        max-attempts: 3
+        wait-duration: 2000
+    configs:
+      default.registerHealthIndicator: true
+  circuitbreaker:
+    configs:
+      default:
+        register-health-indicator: true
+    instances:
+      vehicle-passage-breaker:
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30000
+        permitted-number-of-calls-in-half-open-state: 2
+
+
