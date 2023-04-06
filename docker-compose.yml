@@ -1,10 +1,21 @@
 version: "3.8"
 
 services:
+  zipkin:
+    image: openzipkin/zipkin
+    mem_reservation: 700m
+    ports:
+      - "9411:9411"
+
   config-server:
     image: billing-microservices/config-server
     ports:
       - "8070:8070"
+    depends_on:
+      - zipkin
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
 
   eureka-server:
     image: billing-microservices/eureka-server
@@ -24,6 +35,51 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: default
       SPRING_CONFIG_IMPORT: configserver:http://config-server:8070
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
+
+  vehicle-service:
+    image: billing-microservices/vehicle-service
+    ports:
+      - "8090:8090"
+    depends_on:
+      - config-server
+      - eureka-server
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+        window: 120s
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://config-server:8070
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8060/eureka/
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
+
+  passage-service:
+    image: billing-microservices/passage-service
+    ports:
+      - "8091:8091"
+    depends_on:
+      - config-server
+      - eureka-server
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+        window: 120s
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://config-server:8070
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8060/eureka/
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
 
   gateway-server:
     image: billing-microservices/gateway-server
@@ -47,47 +103,5 @@ services:
       SPRING_PROFILES_ACTIVE: default
       SPRING_CONFIG_IMPORT: configserver:http://config-server:8070
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8060/eureka/
-
-  vehicle-service:
-    image: billing-microservices/vehicle-service
-    ports:
-      - "8090:8090"
-    depends_on:
-      - config-server
-      - eureka-server
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 30s
-        max_attempts: 3
-        window: 120s
-      replicas: 1
-      placement:
-        max_replicas_per_node: 1
-    environment:
-      SPRING_PROFILES_ACTIVE: default
-      SPRING_CONFIG_IMPORT: configserver:http://config-server:8070
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8060/eureka/
-
-  passage-service:
-    image: billing-microservices/passage-service
-    ports:
-      - "8091:8091"
-    depends_on:
-      - config-server
-      - eureka-server
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 30s
-        max_attempts: 3
-        window: 120s
-      replicas: 1
-      placement:
-        max_replicas_per_node: 1
-    environment:
-      SPRING_PROFILES_ACTIVE: default
-      SPRING_CONFIG_IMPORT: configserver:http://config-server:8070
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8060/eureka/
-
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
 
