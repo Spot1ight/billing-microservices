@@ -4,6 +4,11 @@ spring:
   config:
     import: optional:configserver:http://localhost:8070
     name: eureka-server
+  sleuth:
+    sampler:
+      probability: 1
+  zipkin:
+    base-url: http://localhost:9411/
 server:
   port: 8060
 eureka:
