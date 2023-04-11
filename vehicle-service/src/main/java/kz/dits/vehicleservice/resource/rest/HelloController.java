@@ -3,6 +3,7 @@ package kz.dits.vehicleservice.resource.rest;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
+import io.micrometer.core.annotation.Timed;
 import kz.dits.vehicleservice.client.PassageFeignClient;
 import kz.dits.vehicleservice.config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,15 @@ public class HelloController {
     @Autowired
     private ApplicationProperties props;
     private final PassageFeignClient passageFeignClient;
+
+
+    @GetMapping("/vehicles")
+    @Timed(value = "getVehiclesCount.time", description = "Time to taken vehicles count!")
+    public String getVehiclesCount() throws InterruptedException {
+        Thread.sleep(2000);
+        log.info("REST GET request to get vehicles count!");
+        return "Hello timed api!";
+    }
 
 
     @GetMapping("/hello")
