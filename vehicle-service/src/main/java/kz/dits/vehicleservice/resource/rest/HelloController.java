@@ -29,10 +29,9 @@ public class HelloController {
 
     @GetMapping("/vehicles")
     @Timed(value = "getVehiclesCount.time", description = "Time to taken vehicles count!")
-    public String getVehiclesCount() throws InterruptedException {
-        Thread.sleep(2000);
+    public String getVehiclesCount()  {
         log.info("REST GET request to get vehicles count!");
-        return "Hello timed api!";
+        return "Hello timed api v2!";
     }
 
 
